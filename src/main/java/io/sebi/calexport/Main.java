@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.plist.XMLPropertyListConfiguration;
 
 import java.io.IOException;
@@ -24,10 +25,6 @@ public class Main extends Application {
         launch(args);
     }
 
-    public static void processFile(String file) {
-
-    }
-
     public static List<Calendar> analyzeUserCalendars() throws IOException {
         Path path = Paths.get(System.getProperty("user.home"), "Library", "Calendars");
         Pattern p = Pattern.compile("([^:]+:\\/\\/[^\\/]+)");
@@ -38,31 +35,26 @@ public class Main extends Application {
                 plist.setFileName(path1.toString());
                 try {
                     plist.load();
-                    System.out.println("TITLE: " + plist.getString("Title"));
-                    System.out.println("PRURL: " + plist.getString("PrincipalURL"));
-                    System.out.println("CPATH: " + plist.getString("CalendarHomePath"));
-                    System.out.println("S-URL: " + plist.getString("SubscriptionURL"));
-                    System.out.println("--------");
-                    Calendar c = new Calendar(plist.getString("Title"), plist.getString("PrincipalURL"), plist.getString("CalendarPath"), plist.getString("SubscriptionURL"));
+                    String title = plist.getString("Title");
+                    String principalUrl = plist.getString("PrincipalURL");
+                    String subscriptionUrl = plist.getString("SubscriptionURL");
+                    String calendarPath = plist.getString("CalendarPath");
+                    Calendar c = new Calendar(title, principalUrl, subscriptionUrl, calendarPath);
                     userCalendars.add(c);
-                    if (plist.getString("PrincipalURL") != null) {
-                        System.out.println("A principal is here");
+                    if (principalUrl != null) {
                         c.setTitle(c.getTitle() + " (Principal)");
                         for (Calendar userC : userCalendars) {
-                            if (userC.principalUrlProperty().get() == null) {
-                                String principalUrl = plist.getString("PrincipalURL");
-                                System.out.println("Feeing matcher with " + principalUrl);
-                                Matcher m = p.matcher(principalUrl);
+                            if (userC.getPrincipalUrl() == null) {
+                                String currentPrincipalUrl = plist.getString("PrincipalURL");
+                                Matcher m = p.matcher(currentPrincipalUrl);
                                 while (m.find()) {
-                                    principalUrl = m.group();
+                                    currentPrincipalUrl = m.group();
                                 }
-                                System.out.println("Matcher got " + principalUrl);
-                                userC.setPrincipalUrl(principalUrl);
-                                System.out.println("Setting Principal URL!");
+                                userC.setPrincipalUrl(currentPrincipalUrl);
                             }
                         }
                     }
-                } catch (Exception ex) {
+                } catch (ConfigurationException ex) {
                     ex.printStackTrace();
                 }
             }

@@ -7,76 +7,69 @@ import javafx.beans.property.StringProperty;
  * Created by Sebastian Aigner
  */
 public class Calendar {
-    StringProperty title = new SimpleStringProperty();
-    StringProperty principalUrl = new SimpleStringProperty();
-    StringProperty calendarPath = new SimpleStringProperty();
-    StringProperty subscriptionUrl = new SimpleStringProperty();
+    private String title;
+    private String subscriptionUrl;
+    private String principalUrl;
+    private String calendarPath;
 
-    public Calendar(StringProperty title, StringProperty principalUrl, StringProperty calendarPath, StringProperty subscriptionUrl) {
+    public Calendar(String title, String subscriptionUrl, String principalUrl, String calendarPath) {
         this.title = title;
+        this.subscriptionUrl = subscriptionUrl;
         this.principalUrl = principalUrl;
         this.calendarPath = calendarPath;
-        this.subscriptionUrl = subscriptionUrl;
-    }
-
-    public Calendar(String title, String principalUrl, String calendarPath, String subscriptionUrl) {
-        this.title = new SimpleStringProperty(title);
-        this.principalUrl = new SimpleStringProperty(principalUrl);
-        this.calendarPath = new SimpleStringProperty(calendarPath);
-        this.subscriptionUrl = new SimpleStringProperty(subscriptionUrl);
-    }
-
-    public String getTitle() {
-        return title.get();
     }
 
     public StringProperty titleProperty() {
-        return title;
+        return new SimpleStringProperty(title);
     }
 
     public void setTitle(String title) {
-        this.title.set(title);
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public String getPrincipalUrl() {
-        return principalUrl.get();
-    }
-
-    public StringProperty principalUrlProperty() {
         return principalUrl;
     }
 
+    public StringProperty principalUrlProperty() {
+        return new SimpleStringProperty(principalUrl);
+    }
+
     public void setPrincipalUrl(String principalUrl) {
-        this.principalUrl.set(principalUrl);
+        this.principalUrl = principalUrl;
     }
 
     public String getCalendarPath() {
-        return calendarPath.get();
+        return this.calendarPath;
     }
 
     public StringProperty calendarPathProperty() {
-        return calendarPath;
+        return new SimpleStringProperty(calendarPath);
     }
 
     public void setCalendarPath(String calendarPath) {
-        this.calendarPath.set(calendarPath);
+        this.calendarPath = calendarPath;
     }
 
     public String getSubscriptionUrl() {
-        return subscriptionUrl.get();
+        return this.subscriptionUrl;
     }
 
-    public StringProperty subscriptionUrlProperty() {
-        if (subscriptionUrl.get() != null) {
-            return subscriptionUrl;
-        } else if (calendarPath.get() != null) {
-            return new SimpleStringProperty(principalUrl.get() + calendarPath.get());
+    public StringProperty usableSubscriptionProperty() {
+        if (subscriptionUrl != null) {
+            return new SimpleStringProperty(subscriptionUrl);
+        } else if (calendarPath != null) {
+            return new SimpleStringProperty(principalUrl + calendarPath);
         } else {
-            return principalUrl;
+            return new SimpleStringProperty(principalUrl);
         }
     }
 
     public void setSubscriptionUrl(String subscriptionUrl) {
-        this.subscriptionUrl.set(subscriptionUrl);
+        this.subscriptionUrl = subscriptionUrl;
     }
 }

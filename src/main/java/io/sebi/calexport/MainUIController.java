@@ -2,7 +2,6 @@ package io.sebi.calexport;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -22,14 +21,10 @@ public class MainUIController {
         titleColumn.setCellValueFactory(new PropertyValueFactory("title"));
 
         TableColumn subscriptionUrlColumn = new TableColumn<>("CalDAV Subscription URL");
-        subscriptionUrlColumn.setCellValueFactory(new PropertyValueFactory("subscriptionUrl"));
+        subscriptionUrlColumn.setCellValueFactory(new PropertyValueFactory("usableSubscription"));
         titleColumn.prefWidthProperty().bind(calendarTableView.widthProperty().multiply(0.23));
         subscriptionUrlColumn.prefWidthProperty().bind(calendarTableView.widthProperty().multiply(0.74));
         calendarTableView.getColumns().setAll(titleColumn, subscriptionUrlColumn);
-    }
-
-    public void thingDoing(ActionEvent actionEvent) throws Exception {
-        doStuff();
     }
 
     @FXML
