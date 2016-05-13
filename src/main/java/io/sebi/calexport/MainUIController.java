@@ -7,19 +7,27 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.io.IOException;
+
 /**
  * Created by Sebastian Aigner
  */
 public class MainUIController {
 
-    public TableView calendarTableView;
+    public TableView<Calendar> calendarTableView;
 
-    public void doStuff() throws Exception {
-        ObservableList<Calendar> calendars = FXCollections.observableArrayList(Main.analyzeUserCalendars());
+    public void updateTable() {
+        ObservableList<Calendar> calendars = null;
+        try {
+            calendars = FXCollections.observableArrayList(Main.analyzeUserCalendars());
+        } catch (IOException ex) {
+            System.err.println("Could not read calendar files successfully!");
+            ex.printStackTrace();
+            System.exit(-1);
+        }
         calendarTableView.setItems(calendars);
         TableColumn<Calendar, String> titleColumn = new TableColumn<>("Title");
         titleColumn.setCellValueFactory(new PropertyValueFactory("title"));
-
         TableColumn subscriptionUrlColumn = new TableColumn<>("CalDAV Subscription URL");
         subscriptionUrlColumn.setCellValueFactory(new PropertyValueFactory("usableSubscription"));
         titleColumn.prefWidthProperty().bind(calendarTableView.widthProperty().multiply(0.23));
@@ -29,6 +37,6 @@ public class MainUIController {
 
     @FXML
     protected void initialize() throws Exception {
-        doStuff();
+        updateTable();
     }
 }
