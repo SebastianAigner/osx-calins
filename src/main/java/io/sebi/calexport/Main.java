@@ -9,6 +9,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.plist.XMLPropertyListConfiguration;
 
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -83,7 +84,12 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         ClassLoader classLoader = getClass().getClassLoader();
         try {
-            Parent root = FXMLLoader.load(classLoader.getResource("io.sebi.calexport/UserInterface.fxml"));
+            URL location = classLoader.getResource("io.sebi.calexport/UserInterface.fxml");
+            if (location == null) {
+                System.err.println("Could not open User Interface.");
+                System.exit(-1);
+            }
+            Parent root = FXMLLoader.load(location);
             primaryStage.setTitle("Calendar Explorer");
             primaryStage.setScene(new Scene(root, 1200, 600));
             primaryStage.show();
