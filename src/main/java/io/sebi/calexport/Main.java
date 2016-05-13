@@ -25,6 +25,13 @@ public class Main extends Application {
         launch(args);
     }
 
+    /**
+     * Analyzes a users home directory, more specifically the subfolder ~/Library/Calendars and tries to extract
+     * the most important information out of the user's calendars.
+     *
+     * @return List of calendars
+     * @throws IOException
+     */
     public static List<Calendar> analyzeUserCalendars() throws IOException {
         Path path = Paths.get(System.getProperty("user.home"), "Library", "Calendars");
         Pattern p = Pattern.compile("([^:]+:\\/\\/[^\\/]+)");
@@ -44,6 +51,11 @@ public class Main extends Application {
                     if (principalUrl != null) {
                         c.setTitle(c.getTitle() + " (Principal)");
                         for (Calendar userC : userCalendars) {
+                            // This part isn't exactly the most beautiful, but it's a clever solution.
+                            // Since the File Walker goes depth-first, all sub-calendars are indexed first.
+                            // Only at the end of each "section" of calendars the actual principal URL will be revealed.
+                            // This way, we set the principal URL / host for all preluding calendars that don't yet
+                            // have a prinicpal URL entry.
                             if (userC.getPrincipalUrl() == null) {
                                 String currentPrincipalUrl = plist.getString("PrincipalURL");
                                 Matcher m = p.matcher(currentPrincipalUrl);
@@ -62,6 +74,11 @@ public class Main extends Application {
         return userCalendars;
     }
 
+    /**
+     * Starts the program, initializes the user interface.
+     *
+     * @param primaryStage
+     */
     @Override
     public void start(Stage primaryStage) {
         ClassLoader classLoader = getClass().getClassLoader();

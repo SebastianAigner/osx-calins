@@ -16,6 +16,9 @@ public class MainUIController {
 
     public TableView<Calendar> calendarTableView;
 
+    /**
+     * Updates the table which is the main staple of the UI with the data coming from the calendar analyzer.
+     */
     public void updateTable() {
         ObservableList<Calendar> calendars = null;
         try {
@@ -35,8 +38,11 @@ public class MainUIController {
         calendarTableView.getColumns().setAll(titleColumn, subscriptionUrlColumn);
     }
 
+    /**
+     * Updates the table upon launching the user interface.
+     */
     @FXML
-    protected void initialize() throws Exception {
+    protected void initialize() {
         updateTable();
     }
 }
