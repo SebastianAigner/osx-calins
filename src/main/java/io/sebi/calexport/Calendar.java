@@ -59,7 +59,7 @@ public class Calendar {
      * URL domain and the calendar path is used.
      * If only a principal URL is available, it will be used.
      *
-     * @return
+     * @return StringProperty of the most usable subscription method
      */
     public StringProperty usableSubscriptionProperty() {
         if (subscriptionUrl != null) {
