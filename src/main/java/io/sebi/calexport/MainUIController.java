@@ -4,8 +4,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 
 import java.io.IOException;
 
@@ -15,6 +18,8 @@ import java.io.IOException;
 public class MainUIController {
 
     public TableView<Calendar> calendarTableView;
+    final Clipboard clipboard = Clipboard.getSystemClipboard();
+    final ClipboardContent clipboardContent = new ClipboardContent();
 
     /**
      * Updates the table which is the main staple of the UI with the data coming from the calendar analyzer.
@@ -28,6 +33,20 @@ public class MainUIController {
             ex.printStackTrace();
             System.exit(-1);
         }
+
+        calendarTableView.setRowFactory(tv -> {
+            TableRow<Calendar> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && !row.isEmpty()) {
+                    Calendar c = row.getItem();
+                    clipboardContent.putString(c.usableSubscriptionProperty().get());
+                    clipboard.setContent(clipboardContent);
+                    System.out.println(c);
+                }
+            });
+            return row;
+        });
+
         calendarTableView.setItems(calendars);
         TableColumn<Calendar, String> titleColumn = new TableColumn<>("Title");
         titleColumn.setCellValueFactory(new PropertyValueFactory("title"));
