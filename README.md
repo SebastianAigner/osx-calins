@@ -1,4 +1,4 @@
-# OS X Calendar Inspector [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b6de763c4d3544938c5d7e6713b79b6d)](https://www.codacy.com/app/sebastian-aigner/osx-calins?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=SebastianAigner/osx-calins&amp;utm_campaign=Badge_Grade)
+# OS X Calendar Inspector [![Build Status](https://travis-ci.org/SebastianAigner/osx-calins.svg?branch=master)](https://travis-ci.org/SebastianAigner/osx-calins) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b6de763c4d3544938c5d7e6713b79b6d)](https://www.codacy.com/app/sebastian-aigner/osx-calins?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=SebastianAigner/osx-calins&amp;utm_campaign=Badge_Grade)
 
 
 Inspect and export subscribed OS X calendars, get subscription URLs for iCloud calendars.
