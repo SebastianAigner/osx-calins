@@ -90,7 +90,7 @@ public class Main extends Application {
                 System.exit(-1);
             }
             Parent root = FXMLLoader.load(location);
-            primaryStage.setTitle("Calendar Explorer");
+            primaryStage.setTitle("icloud-calex");
             primaryStage.setScene(new Scene(root, 1200, 600));
             primaryStage.show();
         } catch (IOException | NullPointerException ex) {
