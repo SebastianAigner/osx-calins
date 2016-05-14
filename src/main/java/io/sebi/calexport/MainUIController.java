@@ -34,9 +34,8 @@ public class MainUIController {
         try {
             calendars = FXCollections.observableArrayList(Main.analyzeUserCalendars());
         } catch (IOException ex) {
-            System.err.println("Could not read calendar files successfully!");
             ex.printStackTrace();
-            Runtime.getRuntime().exit(-1);
+            throw new RuntimeException("Could not read calendar files successfully!");
         }
 
         calendarTableView.setRowFactory(tv -> {
