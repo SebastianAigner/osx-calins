@@ -36,7 +36,7 @@ public class MainUIController {
         } catch (IOException ex) {
             System.err.println("Could not read calendar files successfully!");
             ex.printStackTrace();
-            System.exit(-1);
+            Runtime.getRuntime().exit(-1);
         }
 
         calendarTableView.setRowFactory(tv -> {

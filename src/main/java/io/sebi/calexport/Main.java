@@ -87,7 +87,7 @@ public class Main extends Application {
             URL location = classLoader.getResource("io.sebi.calexport/UserInterface.fxml");
             if (location == null) {
                 System.err.println("Could not open User Interface.");
-                System.exit(-1);
+                Runtime.getRuntime().exit(-1);
             }
             Parent root = FXMLLoader.load(location);
             primaryStage.setTitle("osx-calins");
