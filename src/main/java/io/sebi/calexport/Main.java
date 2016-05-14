@@ -56,7 +56,7 @@ public class Main extends Application {
                             // Since the File Walker goes depth-first, all sub-calendars are indexed first.
                             // Only at the end of each "section" of calendars the actual principal URL will be revealed.
                             // This way, we set the principal URL / host for all preluding calendars that don't yet
-                            // have a prinicpal URL entry.
+                            // have a principal URL entry.
                             if (userC.getPrincipalUrl() == null) {
                                 String currentPrincipalUrl = plist.getString("PrincipalURL");
                                 Matcher m = p.matcher(currentPrincipalUrl);
