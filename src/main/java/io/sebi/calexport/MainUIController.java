@@ -2,6 +2,7 @@ package io.sebi.calexport;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -9,8 +10,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
+import javafx.stage.FileChooser;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by Sebastian Aigner
@@ -20,12 +25,12 @@ public class MainUIController {
     public TableView<Calendar> calendarTableView;
     final Clipboard clipboard = Clipboard.getSystemClipboard();
     final ClipboardContent clipboardContent = new ClipboardContent();
+    ObservableList<Calendar> calendars = null;
 
     /**
      * Updates the table which is the main staple of the UI with the data coming from the calendar analyzer.
      */
     public void updateTable() {
-        ObservableList<Calendar> calendars = null;
         try {
             calendars = FXCollections.observableArrayList(Main.analyzeUserCalendars());
         } catch (IOException ex) {
@@ -63,5 +68,122 @@ public class MainUIController {
     @FXML
     protected void initialize() {
         updateTable();
+    }
+
+    /**
+     * Method that gets executed when the "Export as HTML" button in the user interface is pressed.
+     * Presents the user with a save dialog.
+     *
+     * @param actionEvent
+     * @throws Exception
+     */
+    public void exportHtml(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save HTML report");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("HTML", "*.html"),
+                new FileChooser.ExtensionFilter("All Files", "*.*")
+        );
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                FileWriter fileWriter = new FileWriter(file);
+                if (calendars != null) {
+                    fileWriter.write(generateHtmlReport(calendars));
+                }
+                fileWriter.flush();
+                fileWriter.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Method that gets executed when the "Export as plain text" button in the user interface is pressed.
+     * Presents the user with a save dialog.
+     *
+     * @param actionEvent
+     */
+    public void exportPlainText(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save pure text report");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Plain Text", "*.txt"),
+                new FileChooser.ExtensionFilter("All Files", "*.*")
+        );
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                FileWriter fileWriter = new FileWriter(file);
+                if (calendars != null) {
+                    fileWriter.write(generatePlainTextReport(calendars));
+                }
+                fileWriter.flush();
+                fileWriter.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Generates an HTML formatted report from the list of calendars passed in.
+     *
+     * @param calendars list of calendars on which to report
+     * @return HTML formatted report as String
+     */
+    public String generateHtmlReport(List<Calendar> calendars) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(
+                "<!DOCTYPE html>\n" +
+                        "<html lang=\"en\">\n" +
+                        "  <head>\n" +
+                        "    <meta charset=\"utf-8\">\n" +
+                        "    <title>title</title>\n" +
+                        "    <link rel=\"stylesheet\" href=\"style.css\">\n" +
+                        "    <script src=\"script.js\"></script>\n" +
+                        "  </head>\n" +
+                        "  <body>\n" +
+                        "<table>" +
+                        "<tr style='font-weight: bold;'>" +
+                        "<td>Title</td>" +
+                        "<td>CalDAV Subscription URL</td>" +
+                        "</tr>");
+        for (Calendar c : calendars) {
+            if (c.usableSubscriptionProperty().get() != null) {
+                stringBuilder.append("<tr>");
+                stringBuilder.append("<td>");
+                stringBuilder.append(c.getTitle());
+                stringBuilder.append("</td>");
+                stringBuilder.append("<td>");
+                stringBuilder.append(c.usableSubscriptionProperty().get());
+                stringBuilder.append("</td>");
+                stringBuilder.append("</tr>");
+            }
+        }
+        stringBuilder.append("</table>\n");
+        stringBuilder.append("</body>\n");
+        stringBuilder.append("</html>");
+        return stringBuilder.toString();
+    }
+
+    /**
+     * Generates a plain text report from the list of calenders passed in.
+     *
+     * @param calendars list of calendars on which to report
+     * @return plain text report
+     */
+    public String generatePlainTextReport(List<Calendar> calendars) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Calendar c : calendars) {
+            if (c.usableSubscriptionProperty().get() != null) {
+                stringBuilder.append(c.getTitle());
+                stringBuilder.append(": ");
+                stringBuilder.append(c.usableSubscriptionProperty().get());
+                stringBuilder.append("\n");
+            }
+        }
+        return stringBuilder.toString();
     }
 }
