@@ -23,9 +23,9 @@ import java.util.List;
 public class MainUIController {
 
     public TableView<Calendar> calendarTableView;
-    final Clipboard clipboard = Clipboard.getSystemClipboard();
-    final ClipboardContent clipboardContent = new ClipboardContent();
-    ObservableList<Calendar> calendars = null;
+    private final Clipboard clipboard = Clipboard.getSystemClipboard();
+    private final ClipboardContent clipboardContent = new ClipboardContent();
+    private ObservableList<Calendar> calendars = null;
 
     /**
      * Updates the table which is the main staple of the UI with the data coming from the calendar analyzer.
@@ -75,7 +75,6 @@ public class MainUIController {
      * Presents the user with a save dialog.
      *
      * @param actionEvent
-     * @throws Exception
      */
     public void exportHtml(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();
@@ -133,7 +132,7 @@ public class MainUIController {
      * @param calendars list of calendars on which to report
      * @return HTML formatted report as String
      */
-    public String generateHtmlReport(List<Calendar> calendars) {
+    private String generateHtmlReport(List<Calendar> calendars) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(
                 "<!DOCTYPE html>\n" +
@@ -174,7 +173,7 @@ public class MainUIController {
      * @param calendars list of calendars on which to report
      * @return plain text report
      */
-    public String generatePlainTextReport(List<Calendar> calendars) {
+    private String generatePlainTextReport(List<Calendar> calendars) {
         StringBuilder stringBuilder = new StringBuilder();
         for (Calendar c : calendars) {
             if (c.usableSubscriptionProperty().get() != null) {
