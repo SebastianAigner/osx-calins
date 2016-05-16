@@ -15,6 +15,7 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -58,7 +59,7 @@ public class MainUIController {
         subscriptionUrlColumn.setCellValueFactory(new PropertyValueFactory<>("usableSubscription"));
         titleColumn.prefWidthProperty().bind(calendarTableView.widthProperty().multiply(0.23));
         subscriptionUrlColumn.prefWidthProperty().bind(calendarTableView.widthProperty().multiply(0.74));
-        calendarTableView.getColumns().setAll(titleColumn, subscriptionUrlColumn);
+        calendarTableView.getColumns().setAll(Arrays.asList(titleColumn, subscriptionUrlColumn));
     }
 
     /**
