@@ -19,6 +19,32 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.zenjava</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>8.1.4</version>
+                <configuration>
+                    <mainClass>io.sebi.calexport.Main</mainClass>
+                    <identifier>Calendar Inspector</identifier>
+                </configuration>
+                <executions>
+                    <execution>
+                        <!-- required before build-native -->
+                        <id>create-jfxjar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build-jar</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>create-native</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build-native</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <dependencies>
