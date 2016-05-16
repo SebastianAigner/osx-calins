@@ -53,9 +53,9 @@ public class MainUIController {
 
         calendarTableView.setItems(calendars);
         TableColumn<Calendar, String> titleColumn = new TableColumn<>("Title");
-        titleColumn.setCellValueFactory(new PropertyValueFactory("title"));
-        TableColumn subscriptionUrlColumn = new TableColumn<>("CalDAV Subscription URL");
-        subscriptionUrlColumn.setCellValueFactory(new PropertyValueFactory("usableSubscription"));
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        TableColumn<Calendar, String> subscriptionUrlColumn = new TableColumn<>("CalDAV Subscription URL");
+        subscriptionUrlColumn.setCellValueFactory(new PropertyValueFactory<>("usableSubscription"));
         titleColumn.prefWidthProperty().bind(calendarTableView.widthProperty().multiply(0.23));
         subscriptionUrlColumn.prefWidthProperty().bind(calendarTableView.widthProperty().multiply(0.74));
         calendarTableView.getColumns().setAll(titleColumn, subscriptionUrlColumn);
@@ -119,7 +119,7 @@ public class MainUIController {
                 }
                 fileWriter.flush();
                 fileWriter.close();
-            } catch (Exception ex) {
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
         }
