@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
+
 /**
  * Created by Sebastian Aigner
  */
@@ -149,14 +151,16 @@ public class MainUIController {
                         "</tr>");
         for (Calendar c : calendars) {
             if (c.usableSubscriptionProperty().get() != null) {
-                stringBuilder.append("<tr>");
-                stringBuilder.append("<td>");
-                stringBuilder.append(c.getTitle());
-                stringBuilder.append("</td>");
-                stringBuilder.append("<td>");
-                stringBuilder.append(c.usableSubscriptionProperty().get());
-                stringBuilder.append("</td>");
-                stringBuilder.append("</tr>");
+                stringBuilder.append("<tr>\n");
+                stringBuilder.append("<td>\n");
+                stringBuilder.append(escapeHtml(c.getTitle()));
+                stringBuilder.append("\n");
+                stringBuilder.append("</td>\n");
+                stringBuilder.append("<td>\n");
+                stringBuilder.append(escapeHtml(c.usableSubscriptionProperty().get()));
+                stringBuilder.append("\n");
+                stringBuilder.append("</td>\n");
+                stringBuilder.append("</tr>\n");
             }
         }
         stringBuilder.append("</table>\n");
