@@ -1,13 +1,14 @@
 language: java
 jdk:
 - oraclejdk8
-after_success:
-- mv target/calexport-1.0-SNAPSHOT-jar-with-dependencies.jar target/calexport.jar
+before_deploy:
+- "mvn -DskipTests package"
+- export DEPLOYFILE=$(ls target/calexport*.jar)
 deploy:
   provider: releases
   api_key:
     secure: oOJcJ6djxWubyVHEz4ylxKJ0yWG1N4ewjy1mwSUDWiuiQFSMWQZ61eVMEg91Ubu5Zc3uSwLBVm/asYD690nL+NWYia5frknFMxKFkN3G0YM5774/SysHOYhJXoJpXbQkkscuMGy+lQsLbe2mqeCFjFuWafuvVDcbn+v/Dr6QMzfogTSS8zUQs6dhU047AxEf1jT0QyJrTaRA3nMNNPT9KI/1MSOkV76iyAXKW3evVo9FA3PUTg5U706Q31pY4y4MN/dGL5Hbk3Kzl5+WVUF26IOs8i8M/u4mZDwoYrg6dJZGFr/Z6BlMuhJsIOydwLEPSfygGcFQRCFp2MAbbLwUP09Rh6VAWUPP87RdkVfoRct53qpNsnOWv03JSrINwOnxUHcFKgDoY30a4LO4oxbXcmz4PYdB6HaFHH5ikWW4YAgQ9JyNkBcTwGrVLC234xToYnjhcPBccH3wMxWAKq2jITh+Z2l/LhDo/uOzgpXvACbbGDPSG09MAl8TV2Y0U/cAfgxJva+VrwKV1P5Vt66E6L1IQj1l7hVUJ/Nn8/rB3BXLQQxdSsdzaBfQXUMI0xdadTbJbUYQYBP2pzurvNs6s5K5gvhzRMaF7AzkaNq7K47MqQPDQ5d8LAoGggaelCqujNQHLHx/Y1RJ6l9JkUXoH8SUDccXEuRZSA9nu6kTX4c=
-  file: "target/calexport.jar"
+  file: "${DEPLOYFILE}"
   on:
     repo: SebastianAigner/osx-calins
     tags: true
