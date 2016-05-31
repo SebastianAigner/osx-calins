@@ -3,7 +3,7 @@ jdk:
 - oraclejdk8
 before_deploy:
 - "mvn -DskipTests package"
-- export DEPLOYFILE=$(ls target/calexport*.jar)
+- export DEPLOYFILE=$(ls target/calexport-1.0-SNAPSHOT-jar-with-dependencies.jar)
 deploy:
   provider: releases
   api_key:
