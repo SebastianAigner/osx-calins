@@ -3,7 +3,8 @@
 
 Inspect and export subscribed OS X calendars, get subscription URLs for iCloud calendars.
 ![Screenshot of osx-calins](https://cloud.githubusercontent.com/assets/2178959/15265237/b165e596-197f-11e6-96e4-442057a4c4bd.png)
-#Description
+
+# Description
 The OSX Calendar Inspector is a little tool that makes it possible to create a report of all the currently configured calendars in your "Calendar" app on Mac OS X, thus helping you exporting them and subscribing to them on all the platforms of your liking!
 
 # Usage
